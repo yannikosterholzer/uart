@@ -17,13 +17,14 @@ module uart_rx #(parameter dbits = 8, sample = 16)
         rx_data <= rx_buff;
         end
     
+    parameter idle = 0, start = 1,  get_bits = 2, stop = 3;   
     always @(posedge clk)
         if(rst) 
-            state <= 0;
+            state <= idle;
         else 
             state <= next_state;
     
-    parameter idle = 0, start = 1,  get_bits = 2, stop = 3;
+
     always @(*) begin
         next_state = idle;
             case(state)

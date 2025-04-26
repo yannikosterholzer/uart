@@ -13,7 +13,7 @@ module uart_rx #(parameter dbits = 8, sample = 16)
     reg  rx_buff, rx_data;
 
 
-        tim #(.bbits(bbits))
+    tim #(.bbits(bbits))
     counter
     (
         .clk(clk), 

@@ -11,7 +11,29 @@ module uart_rx #(parameter dbits = 8, sample = 16)
     wire ready, data_ready;
     reg  [1:0] state, next_state;
     reg  rx_buff, rx_data;
+
+
+        tim #(.bbits(bbits))
+    counter
+    (
+        .clk(clk), 
+        .rst(cnt_rst),
+        .enable(tick),
+        .cnt_val(cnt_val),
+        .alarm(ready)
+    );
     
+    tim #(.bbits(bbits))
+    bit_counter
+    (
+        .clk(clk), 
+        .rst(bcn_rst),
+        .enable(ready),
+        .cnt_val(bit_num),
+        .alarm(data_ready)
+    );
+    
+    // Synchronisierung wg CDC
     always @(posedge clk) begin
         rx_buff <= rx;
         rx_data <= rx_buff;
@@ -65,35 +87,9 @@ module uart_rx #(parameter dbits = 8, sample = 16)
                 stop     :   begin
                                  cnt_rst   = 0;
                                  cnt_val   = sample;
-                             end
-                
-                
-                
-                
-                
+                             end             
             endcase
         end
-    
-    tim #(.bbits(bbits))
-    counter
-    (
-        .clk(clk), 
-        .rst(cnt_rst),
-        .enable(tick),
-        .cnt_val(cnt_val),
-        .alarm(ready)
-    );
-    
-    tim #(.bbits(bbits))
-    bit_counter
-    (
-        .clk(clk), 
-        .rst(bcn_rst),
-        .enable(ready),
-        .cnt_val(bit_num),
-        .alarm(data_ready)
-    );
-    
     
     always @(posedge clk)
                 if(ready)

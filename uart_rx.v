@@ -81,12 +81,12 @@ module uart_rx #(parameter dbits = 8, sample = 16)
                 get_bits :   begin
                                  cnt_rst   = 0;
                                  bcn_rst   = 0;
-                                 cnt_val   = sample;
+                                 cnt_val   = sample-1;
                                  bit_num   = 8;                            
                              end
                 stop     :   begin
                                  cnt_rst   = 0;
-                                 cnt_val   = sample;
+                                 cnt_val   = sample-1;
                              end             
             endcase
         end
@@ -95,6 +95,6 @@ module uart_rx #(parameter dbits = 8, sample = 16)
                 if(ready)
                     dout <= {rx_data, dout[dbits-1:1]};   
 
-    assign rx_done = rst? 0:data_ready;                
+    assign rx_done = rst? 0:(state == stop && (rx_data && ready ));              
 
 endmodule

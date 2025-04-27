@@ -16,8 +16,8 @@ module fifo_ctrl #(parameter abits = 4)(clk, rst, inc, dec , e, f);
         else begin
             case(state)
                 2      :  counter <= (counter[abits] == 1)? counter: counter + 1;  
-                1      :  counter <= (counter == 0)? counter :counter - 1; 
-                default:  counter <= counter;
+                1      :  counter <= (counter == 0)?        counter :counter - 1; 
+                default:  counter <=  counter;
             endcase
         end
      

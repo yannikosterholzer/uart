@@ -27,6 +27,4 @@ module tim #(parameter bbits = 16)
             if(enable)
                 count <= count_next;
             
-    
-
 endmodule

@@ -27,8 +27,9 @@ module fifo #(parameter abits = 4, dbits = 8)
         end else if(rd)begin
                 if(!wr)
                     dout <= (empty)? 0:mem[read];
-               	else
-               	    dout <= din;
+                else
+                    dout <= din;
                 read <= (empty || wr)? read: read + 1;
-        end 
+                end 
+            
 endmodule

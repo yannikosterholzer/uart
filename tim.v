@@ -11,9 +11,11 @@ module tim #(parameter bbits = 16)
     reg  [bbits-1:0] count, count_prev; 
     wire [bbits-1:0] count_next;
     wire  pulse;
-
+    wire  zero = (cnt_val == 0);
+    wire  cnt_end = (count == cnt_val);
+    
     assign count_next = (count == (cnt_val))? 0: count + 1;
-    assign alarm = rst ? 1'b0 : ( (cnt_val == 0) ? enable : (count == cnt_val) && pulse);
+    assign alarm = rst ? 1'b0 :((zero)? enable:(cnt_end)&& pulse);
     
     always @(posedge clk)
         count_prev <= count;
